@@ -1,6 +1,6 @@
 {
   "name": "oss-cnpm",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "a oss api wraper for cnpm",
   "keywords": ["oss", "cnpm"],
   "author": "dead_horse <dead_horse@qq.com>",
