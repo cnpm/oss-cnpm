@@ -3,7 +3,7 @@ var fs = require('fs');
 var assert = require('assert');
 
 var nfs = oss.create(require('./config'));
-var key = 'key';
+var key = 'heaps/-/heaps-0.0.0.tgz';
 var srcPath = './src.tgz';
 var distPath = './dist.tgz';
 

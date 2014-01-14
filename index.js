@@ -28,11 +28,15 @@ var OssWrapper = function (options) {
   this.bucket = options.bucket;
 };
 
+function trimKey(key) {
+  return key ? key.replace(/^\//, '') : '';
+}
+
 OssWrapper.prototype.upload = function (filePath, options, callback) {
   this.client.putObject({
     bucket: this.bucket,
     srcFile: filePath,
-    object: options.key
+    object: trimKey(options.key)
   }, function (err, data) {
     if (err) {
       return callback(err);
@@ -50,7 +54,7 @@ OssWrapper.prototype.downloadStream = function (key, writeStream, options, callb
     callback = options;
   }
   this.client.getObject({
-    object: key,
+    object: trimKey(key),
     dstFile: writeStream,
     bucket: this.bucket
   }, callback);
@@ -58,7 +62,7 @@ OssWrapper.prototype.downloadStream = function (key, writeStream, options, callb
 
 OssWrapper.prototype.remove = function (key, callback) {
   this.client.deleteObject({
-    object: key,
+    object: trimKey(key),
     bucket: this.bucket
   }, callback);
 };
