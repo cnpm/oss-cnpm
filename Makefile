@@ -20,7 +20,7 @@ clean:
 	@rm -rf node_modules
 
 autod: install-test
-	@./node_modules/.bin/autod -w
+	@./node_modules/.bin/autod -w -e example.js
 	@$(MAKE) install-test
 
 contributors: install-test

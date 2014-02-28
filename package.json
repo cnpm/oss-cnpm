@@ -14,7 +14,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "co": "3.0.4",
     "oss-client": "0.3.4"
   },
   "main": "index",
