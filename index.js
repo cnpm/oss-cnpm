@@ -28,13 +28,7 @@ var OssWrapper = function (options) {
 
   this.client = new OssClient(options);
   this.bucket = options.bucket;
-  var methods = [
-    'upload', 'uploadBuffer', 'download', 'remove',
-  ];
-  for (var i = 0; i < methods.length; i++) {
-    var method = methods[i];
-    this[method] = thunkify(this[method]);
-  }
+  thunkify(this);
 };
 
 function trimKey(key) {
