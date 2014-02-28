@@ -15,7 +15,7 @@
   "license": "MIT",
   "dependencies": {
     "oss-client": "0.3.4",
-    "thunkify-wrap": "0.0.1"
+    "thunkify-wrap": "0.0.2"
   },
   "main": "index",
   "files": [
