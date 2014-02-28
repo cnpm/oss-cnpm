@@ -1,4 +1,4 @@
 oss-cnpm
 ========
 
-oss wraper for cnpmjs.org
+oss wraper for [cnpmjs.org](http://cnpmjs.org)

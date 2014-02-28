@@ -14,13 +14,16 @@
   },
   "license": "MIT",
   "dependencies": {
-    "oss-client": "0.3.0"
+    "co": "3.0.4",
+    "oss-client": "0.3.4"
   },
   "main": "index",
   "files": [
     "index.js"
   ],
   "devDependencies": {
-    "co": "~3.0.4"
+    "autod": "*",
+    "co": "~3.0.4",
+    "contributors": "*"
   }
 }
