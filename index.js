@@ -6,6 +6,7 @@
  *
  * Authors:
  *  dead_horse <dead_horse@qq.com> (http://deadhorse.me)
+ *  fengmk2 <fengmk2@gmail.com> (http://fengmk2.github.com)
  */
 
 'use strict';
@@ -14,6 +15,7 @@
  * Module dependencies.
  */
 
+var thunkify = require('thunkify-wrap');
 var OssClient = require('oss-client').OssClient;
 
 var OssWrapper = function (options) {
@@ -26,51 +28,53 @@ var OssWrapper = function (options) {
 
   this.client = new OssClient(options);
   this.bucket = options.bucket;
+  var methods = [
+    'upload', 'uploadBuffer', 'download', 'remove',
+  ];
+  for (var i = 0; i < methods.length; i++) {
+    var method = methods[i];
+    this[method] = thunkify(this[method]);
+  }
 };
 
 function trimKey(key) {
   return key ? key.replace(/^\//, '') : '';
 }
 
-OssWrapper.prototype.upload = function (filePath, options) {
-  var self = this;
-  return function (done) {
-    self.client.putObject({
-      bucket: self.bucket,
-      srcFile: filePath,
-      object: trimKey(options.key)
-    }, function (err, data) {
-      if (err) {
-        return done(err);
-      }
-      done(null, {
-        key: options.key
-      });
+OssWrapper.prototype.upload = function (filePath, options, callback) {
+  this.client.putObject({
+    bucket: this.bucket,
+    srcFile: filePath,
+    object: trimKey(options.key)
+  }, function (err, data) {
+    if (err) {
+      return callback(err);
+    }
+    callback(null, {
+      key: options.key
     });
-  };
+  });
 };
 
 OssWrapper.prototype.uploadBuffer = OssWrapper.prototype.upload;
 
-OssWrapper.prototype.download = function (key, filepath, options) {
-  var self = this;
-  return function (done) {
-    self.client.getObject({
-      object: trimKey(key),
-      dstFile: filepath,
-      bucket: self.bucket
-    }, done);
-  };
+OssWrapper.prototype.download = function (key, filepath, options, callback) {
+  if (typeof options === 'function') {
+    callback = options;
+    options = null;
+  }
+  this.client.getObject({
+    object: trimKey(key),
+    dstFile: filepath,
+    bucket: this.bucket
+  }, callback);
 };
 
-OssWrapper.prototype.remove = function (key) {
-  var self = this;
-  return function (done) {
-    self.client.deleteObject({
-      object: trimKey(key),
-      bucket: self.bucket
-    }, done);
-  };
+OssWrapper.prototype.remove = function (key, callback) {
+  this.client.deleteObject({
+    object: trimKey(key),
+    bucket: this.bucket
+  }, callback);
 };
 
 exports.create = function (options) {
