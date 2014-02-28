@@ -2,8 +2,6 @@ TESTS = $(shell ls -S `find test -type f -name "*.test.js" -print`)
 TIMEOUT = 5000
 MOCHA_OPTS =
 REPORTER = tap
-PROJECT_DIR = $(shell pwd)
-JSCOVERAGE = ./node_modules/jscover/bin/jscover
 NPM_REGISTRY = --registry=http://registry.cnpmjs.org
 NPM_INSTALL_PRODUCTION = PYTHON=`which python2.6` NODE_ENV=production npm install $(NPM_REGISTRY)
 NPM_INSTALL_TEST = PYTHON=`which python2.6` NODE_ENV=test npm install $(NPM_REGISTRY)
@@ -21,4 +19,11 @@ test: install-test
 clean:
 	@rm -rf node_modules
 
-.PHONY: install install-test test clean
+autod: install-test
+	@./node_modules/.bin/autod -w -e example.js
+	@$(MAKE) install-test
+
+contributors: install-test
+	@./node_modules/.bin/contributors -f plain -o AUTHORS
+
+.PHONY: test
