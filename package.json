@@ -2,7 +2,10 @@
   "name": "oss-cnpm",
   "version": "0.0.2",
   "description": "a oss api wraper for cnpm",
-  "keywords": ["oss", "cnpm"],
+  "keywords": [
+    "oss",
+    "cnpm"
+  ],
   "author": "dead_horse <dead_horse@qq.com>",
   "homepage": "https://github.com/cnpm/oss-cnpm",
   "repository": {
@@ -14,8 +17,10 @@
     "oss-client": "0.3.0"
   },
   "main": "index",
-  "files": ["index.js"],
+  "files": [
+    "index.js"
+  ],
   "devDependencies": {
-
+    "co": "~3.0.4"
   }
 }
