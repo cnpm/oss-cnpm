@@ -1,4 +1,9 @@
 
+0.1.0 / 2014-02-28 
+==================
+
+  * keep thunkify, let it use on co and callback ways both
+
 0.0.4 / 2014-02-28 
 ==================
 

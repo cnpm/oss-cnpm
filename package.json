@@ -1,6 +1,6 @@
 {
   "name": "oss-cnpm",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "a oss api wraper for cnpm",
   "keywords": [
     "oss",
