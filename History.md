@@ -1,4 +1,10 @@
 
+0.1.1 / 2014-03-07 
+==================
+
+  * add uploadBuffer and jshint, update thunkify-wrap
+  * simplify thunkify
+
 0.1.0 / 2014-02-28 
 ==================
 
