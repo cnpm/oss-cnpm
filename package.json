@@ -15,15 +15,17 @@
   "license": "MIT",
   "dependencies": {
     "oss-client": "0.3.4",
-    "thunkify-wrap": "0.0.2"
+    "thunkify-wrap": "0.0.5"
   },
   "main": "index",
   "files": [
     "index.js"
   ],
   "devDependencies": {
+    "jshint": "*",
     "autod": "*",
     "co": "~3.0.4",
-    "contributors": "*"
+    "contributors": "*",
+    "mocha": "*"
   }
 }

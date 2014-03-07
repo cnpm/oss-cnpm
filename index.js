@@ -42,6 +42,8 @@ OssWrapper.prototype.upload = function (filePath, options, callback) {
     object: trimKey(options.key)
   }, function (err, data) {
     if (err) {
+      err.message += '\nfilePath: ' + filePath
+        + '\nkey: ' + options.key;
       return callback(err);
     }
     callback(null, {

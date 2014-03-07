@@ -12,6 +12,9 @@ install:
 install-test:
 	@$(NPM_INSTALL_TEST)
 
+jshint: install-test
+	@./node_modules/.bin/jshint .
+
 test: install-test
 	@NODE_ENV=test ./node_modules/mocha/bin/mocha \
 		--reporter $(REPORTER) --timeout $(TIMEOUT) $(MOCHA_OPTS) $(TESTS)

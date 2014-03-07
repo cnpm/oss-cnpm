@@ -1,10 +1,25 @@
+/**!
+ * oss-cnpm - example.js
+ *
+ * Copyright(c) fengmk2 and other contributors.
+ * MIT Licensed
+ *
+ * Authors:
+ *   fengmk2 <fengmk2@gmail.com> (http://fengmk2.github.com)
+ */
+
+'use strict';
+
+/**
+ * Module dependencies.
+ */
+
 var oss = require('./');
 var fs = require('fs');
 var assert = require('assert');
 var co = require('co');
-
 var nfs = oss.create(require('./config'));
-var key = '/heaps/-/example2.js';
+var key = '/oss-cnpm-example/-/example2.js';
 var srcPath = __dirname + '/example.js';
 var distPath = '/tmp/example.js';
 
@@ -15,6 +30,10 @@ co(function *() {
   assert(fs.existsSync(distPath));
   console.log('download success: %j', r);
   fs.unlinkSync(distPath);
+
+  // upload Buffer
+  r = yield nfs.upload(new Buffer('foo'), {key: '/oss-cnpm-example/-/test.js'});
+  console.log('upload buffer success: %j', r);
 
   r = yield nfs.remove(key);
   console.log('remove %j', r);
