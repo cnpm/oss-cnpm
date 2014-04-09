@@ -14,8 +14,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "oss-client": "0.3.4",
-    "thunkify-wrap": "0.0.5"
+    "ali-oss": "0.0.2",
+    "thunkify-wrap": "0.0.2"
   },
   "main": "index",
   "files": [

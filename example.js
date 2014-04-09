@@ -28,20 +28,14 @@ co(function *() {
   console.log('upload success: %j', r);
   r = yield nfs.download(key, distPath);
   assert(fs.existsSync(distPath));
-  console.log('download success: %j', r);
+  console.log('download success');
   fs.unlinkSync(distPath);
-
-  // upload Buffer
-  r = yield nfs.upload(new Buffer('foo'), {key: '/oss-cnpm-example/-/test.js'});
-  console.log('upload buffer success: %j', r);
-
   r = yield nfs.remove(key);
-  console.log('remove %j', r);
-
+  console.log('remove success');
   try {
     yield nfs.download(key, distPath + '.error');
   } catch (err) {
-    console.log('remove success: %s', err.stack);
+    console.log('get %s response %s', key, err.status);
   }
 })();
 
