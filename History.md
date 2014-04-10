@@ -1,16 +1,20 @@
 
-0.1.1 / 2014-03-07 
+0.2.0 / 2014-04-10
+==================
+
+  * use ali-oss
+
+0.1.1 / 2014-03-07
 ==================
 
   * add uploadBuffer and jshint, update thunkify-wrap
   * simplify thunkify
 
-0.1.0 / 2014-02-28 
-==================
+0.1.0 / 2014-02-28
 
   * keep thunkify, let it use on co and callback ways both
 
-0.0.4 / 2014-02-28 
+0.0.4 / 2014-02-28
 ==================
 
   * Merge pull request #1 from cnpm/update-oss
