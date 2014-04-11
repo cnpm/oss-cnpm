@@ -14,7 +14,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "ali-oss": "0.0.2"
+    "ali-oss": "0.0.3"
   },
   "main": "index",
   "files": [

@@ -34,7 +34,7 @@ OssWrapper.prototype.upload = function* (filePath, options) {
 OssWrapper.prototype.uploadBuffer = OssWrapper.prototype.upload;
 
 OssWrapper.prototype.download = function* (key, filepath, options) {
-  yield* this.client.get(trimKey(key), filepath);
+  yield* this.client.get(trimKey(key), filepath, options);
 };
 
 OssWrapper.prototype.remove = function* (key) {
