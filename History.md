@@ -1,4 +1,11 @@
 
+0.2.1 / 2014-04-11
+==================
+
+  * update ali-oss, support timeout
+  * Merge pull request #6 from cnpm/simplify
+  * fix history
+
 0.2.0 / 2014-04-10
 ==================
 
