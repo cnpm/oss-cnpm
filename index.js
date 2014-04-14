@@ -16,9 +16,23 @@
  */
 
 var OSS = require('ali-oss');
+var path = require('path');
 
+// If you want to use oss public mode, please set `options.mode = 'public'`
 var OssWrapper = function (options) {
   this.client = OSS.create(options);
+  this._mode = options.mode === 'public' ? 'public' : 'private';
+  this._publicRoot = options.publicRoot; // 'cnpm.oss.aliyuncs.com'
+  if (this._mode === 'public') {
+    if (!this._publicRoot) {
+      this._publicRoot = 'http://' + options.bucket + '.oss.aliyuncs.com';
+    } else {
+      if (this._publicRoot.indexOf('://') < 0) {
+        this._publicRoot = 'http://' + this._publicRoot;
+      }
+      this._publicRoot = this._publicRoot.replace(/\/+$/, '');
+    }
+  }
 };
 
 function trimKey(key) {
@@ -27,7 +41,10 @@ function trimKey(key) {
 
 OssWrapper.prototype.upload = function* (filePath, options) {
   var key = trimKey(options.key);
-  yield* this.client.upload(filePath, key);
+  var res = yield* this.client.upload(filePath, key);
+  if (this._mode === 'public') {
+    return { url: this._publicRoot + '/' + key };
+  }
   return { key: key };
 };
 
