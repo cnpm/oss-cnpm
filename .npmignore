@@ -1,1 +1,6 @@
 config.js
+example.js
+Makefile
+.jshint*
+History.md
+AUTHORS
