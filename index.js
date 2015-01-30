@@ -54,6 +54,10 @@ OssWrapper.prototype.download = function* (key, filepath, options) {
   yield* this.client.get(trimKey(key), filepath, options);
 };
 
+OssWrapper.prototype.url = function* (key) {
+  return this.client.signatureUrl(trimKey(key));
+};
+
 OssWrapper.prototype.remove = function* (key) {
   yield* this.client.remove(trimKey(key));
 };
