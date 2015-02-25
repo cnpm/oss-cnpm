@@ -9,9 +9,14 @@ oss wraper for [cnpmjs.org](http://cnpmjs.org)
 var oss = require('oss-cnpm');
 
 var client = oss({
-  bucket: 'your bucket',
   accessKeyId: 'your id',
   accessKeySecret: 'your secret',
+  region: 'your bucket region',
+  bucket: 'your bucket',
   mode: 'public or private',
 });
 ```
+
+## License
+
+[MIT](LICENSE)
