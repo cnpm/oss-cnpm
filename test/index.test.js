@@ -44,15 +44,14 @@ describe('index.test.js', function () {
 
   it('should get download stream', function* () {
     var tmpfile = path.join(__dirname, '.tmp-file.js');
-    var result = yield nfs.createDownloadStream(key);
-    assert.equal(result.res.status, 200);
+    var stream = yield nfs.createDownloadStream(key);
     var ws = fs.createWriteStream(tmpfile);
     function end() {
       return function (callback) {
         ws.on('close', callback);
       };
     }
-    result.stream.pipe(ws);
+    stream.pipe(ws);
     yield end();
     assert.equal(fs.readFileSync(tmpfile, 'utf8'), fs.readFileSync(__filename, 'utf8'));
   });
