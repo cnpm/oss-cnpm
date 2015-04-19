@@ -56,6 +56,10 @@ proto.download = function* (key, filepath, options) {
   yield* this.client.get(trimKey(key), filepath, options);
 };
 
+proto.createDownloadStream = function* (key, options) {
+  return yield this.client.getStream(trimKey(key), options);
+};
+
 proto.url = function (key) {
   return this.client.signatureUrl(trimKey(key));
 };
