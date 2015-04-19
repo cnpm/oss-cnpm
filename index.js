@@ -15,12 +15,16 @@
  * Module dependencies.
  */
 
-var OSS = require('ali-oss');
+var oss = require('ali-oss');
 var path = require('path');
 
-// If you want to use oss public mode, please set `options.mode = 'public'`
-var OssWrapper = function (options) {
-  this.client = OSS.create(options);
+exports.create = function (options) {
+  return new OssWrapper(options);
+};
+
+function OssWrapper(options) {
+  this.client = oss(options);
+  // If you want to use oss public mode, please set `options.mode = 'public'`
   this._mode = options.mode === 'public' ? 'public' : 'private';
   this._publicRoot = options.publicRoot; // 'cnpm.oss.aliyuncs.com'
   if (this._mode === 'public') {
@@ -33,35 +37,37 @@ var OssWrapper = function (options) {
       this._publicRoot = this._publicRoot.replace(/\/+$/, '');
     }
   }
-};
-
-function trimKey(key) {
-  return key ? key.replace(/^\//, '') : '';
 }
 
-OssWrapper.prototype.upload = function* (filePath, options) {
+var proto = OssWrapper.prototype;
+
+proto.upload = function* (filePath, options) {
   var key = trimKey(options.key);
-  var res = yield* this.client.upload(filePath, key);
+  var res = yield this.client.put(key, filePath);
   if (this._mode === 'public') {
     return { url: this._publicRoot + '/' + key };
   }
   return { key: key };
 };
 
-OssWrapper.prototype.uploadBuffer = OssWrapper.prototype.upload;
+proto.uploadBuffer = proto.upload;
 
-OssWrapper.prototype.download = function* (key, filepath, options) {
+proto.download = function* (key, filepath, options) {
   yield* this.client.get(trimKey(key), filepath, options);
 };
 
-OssWrapper.prototype.url = function (key) {
+proto.createDownloadStream = function* (key, options) {
+  return yield this.client.getStream(trimKey(key), options);
+};
+
+proto.url = function (key) {
   return this.client.signatureUrl(trimKey(key));
 };
 
-OssWrapper.prototype.remove = function* (key) {
-  yield* this.client.remove(trimKey(key));
+proto.remove = function* (key) {
+  yield* this.client.delete(trimKey(key));
 };
 
-exports.create = function (options) {
-  return new OssWrapper(options);
-};
+function trimKey(key) {
+  return key ? key.replace(/^\//, '') : '';
+}
