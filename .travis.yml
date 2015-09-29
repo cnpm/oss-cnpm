@@ -21,4 +21,4 @@ env:
 script:
   - npm run test-cov
 after_script:
-  - npm install coveralls@2 && cat ./coverage/lcov.info | coveralls
+  - "npm i codecov.io && cat ./coverage/coverage.json | ./node_modules/codecov.io/bin/codecov.io.js"

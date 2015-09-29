@@ -3,7 +3,7 @@ oss-cnpm
 
 [![NPM version][npm-image]][npm-url]
 [![build status][travis-image]][travis-url]
-[![Test coverage][coveralls-image]][coveralls-url]
+[![Test coverage][codecov-image]][codecov-url]
 [![David deps][david-image]][david-url]
 [![npm download][download-image]][download-url]
 
@@ -11,8 +11,8 @@ oss-cnpm
 [npm-url]: https://npmjs.org/package/oss-cnpm
 [travis-image]: https://img.shields.io/travis/cnpm/oss-cnpm.svg?style=flat-square
 [travis-url]: https://travis-ci.org/cnpm/oss-cnpm
-[coveralls-image]: https://img.shields.io/coveralls/cnpm/oss-cnpm.svg?style=flat-square
-[coveralls-url]: https://coveralls.io/r/cnpm/oss-cnpm?branch=master
+[codecov-image]: https://codecov.io/github/cnpm/oss-cnpm/coverage.svg?branch=master
+[codecov-url]: https://codecov.io/github/cnpm/oss-cnpm?branch=master
 [david-image]: https://img.shields.io/david/cnpm/oss-cnpm.svg?style=flat-square
 [david-url]: https://david-dm.org/cnpm/oss-cnpm
 [download-image]: https://img.shields.io/npm/dm/oss-cnpm.svg?style=flat-square
