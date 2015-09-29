@@ -1,4 +1,11 @@
 
+2.0.0 / 2015-09-29
+==================
+
+ * test: use eslint
+ * test: use codecov.io
+ * feat: support oss cluster client
+
 1.1.1 / 2015-04-20
 ==================
 
