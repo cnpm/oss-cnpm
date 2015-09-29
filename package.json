@@ -7,33 +7,37 @@
     "cnpm"
   ],
   "author": "dead_horse <dead_horse@qq.com>",
-  "homepage": "https://github.com/cnpm/oss-cnpm",
   "repository": {
     "type": "git",
     "url": "git://github.com/cnpm/oss-cnpm.git"
   },
-  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cnpm/oss-cnpm/issues"
+  },
   "main": "index.js",
   "files": [
     "index.js"
   ],
   "scripts": {
-    "test": "mocha --harmony --check-leaks -R spec -t 5000 -r co-mocha test/*.test.js",
-    "test-cov": "node --harmony node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- --check-leaks -t 5000 -r co-mocha test/*.test.js",
-    "test-travis": "node --harmony node_modules/.bin/istanbul cover node_modules/.bin/_mocha --report lcovonly -- --check-leaks -t 5000 -r co-mocha test/*.test.js",
+    "test": "mocha --check-leaks -R spec -t 5000 -r co-mocha test/*.test.js",
+    "test-cov": "istanbul cover node_modules/.bin/_mocha -- --check-leaks -t 5000 -r co-mocha test/*.test.js",
     "jshint": "jshint .",
-    "autod": "autod -w --prefix '~'",
-    "cnpm": "npm install --registry=https://registry.npm.taobao.org"
+    "autod": "autod -w --prefix '~'"
   },
   "dependencies": {
-    "ali-oss": "~2.2.0"
+    "ali-oss": "~2.8.0",
+    "is-type-of": "^0.3.1"
   },
   "devDependencies": {
     "autod": "*",
     "co": "*",
     "co-mocha": "*",
-    "istanbul-harmony": "*",
+    "istanbul": "*",
     "jshint": "*",
     "mocha": "*"
-  }
+  },
+  "engines": {
+    "node": ">= 1.0.0"
+  },
+  "license": "MIT"
 }

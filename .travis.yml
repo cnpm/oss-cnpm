@@ -1,18 +1,24 @@
+sudo: false
 language: node_js
-
 node_js:
-- iojs-1
-- '0.12'
-- '0.11'
+ - '1'
+ - '2'
+ - '3'
+ - '4'
 
 env:
   global:
   # OSS_CNPM_* env
-  - secure: BtF0NUw3DVM1xH76W1igjNwbTITUFVABg0P+q1dyc6W0J+xGaZ1buQA28UmzDc9aQWO+ChVryw+ohObQ5EnbXbdfx4X8QRZhuOXOCqjF1CYslkbSoGjY6d2Hh+C3hSYj07I1RAWReOxfsbqDi0VjlhnMpXE7wRi7lznAo+T2vmk=
-  - secure: cwb2sxX76HYNPZdlnzFytf7XQAAXZEkm+05CEYH4CjG/q5mCRn0aqiEv9itSJRQ8uM5M8SBtel+Jn2VyVSi9O2JAt5l0wgtEWtVG3r7ijRUOqIxcLw2jUhq5puhuPSpazAIGuHPaZoLWpppn7IXX8vcIX9d11FfGUXdL0wZrNqU=
-  - secure: A6Z4TBJ7Q2aGpVNLNx12tgR3xRunniSGBu9U87i0lxz1LEbi9UgB8DUyNmRCBTZu5cCAZOCOizVuV/jS5K+lVPG7K8pgDFSzhmRnRNB3l0IgF9h/ZCgcG5569jXaL7F9U8bntkf/NlhpTujlNEEvCJehZIxv9zzyI9CjkhIwk/4=
-  - secure: gH7+RZtZLOkGX4unbTDw8tjm4YL4KO8A47gZqUtdkR18GfhIhKELdkztDzt16EM+6EujTCeH6h9lBfGezcyVyXIiuqOKhKBVxp2jMVXESSykR23rXqJgWsbUDMz5svlDMPdL0FPoRSJClJAEydIbamwUsPyjYyiROzUWdILfMpo=
-  - secure: LP7TCPbf/9MXQvNNaGBQBRHuuvwlyIkMGxj5PeLVrL3TZj7qy2W/lOLcbd0TSEgqiRcPcEGbY79U9vljxe9o/NA90hBR4s1afEc+02ercfGQXBVYMVz2AE4UoDOzFF/FpKk/BIBSrBEG5+UEemlGkw14a3kvJtrooJs1PiNDRwY=
+  # OSS_CNPM_ID=xxx
+  - secure: "dmBCtpVlPlfY8GasdvYftlpuZUrch+aPgBTmOffmnkm6Y2C2vY0Kn65BBPzwZjfv4VJRinHevtCrGUVjwogLKkby1FA0Ixx+Sjsd6axtn1xzZ/NHsD+NpCQ/7K7Ry8mdxYsOq3uDiD3/7FmMxsnUtahC4jLhE8TQsQWEHS6wBaU="
+  # OSS_CNPM_SECRET=xxx
+  - secure: "micg9hWYvchC+Bn+cuLTbfNI2LDxP0cyuWkFetyh1fMlyxvKKLIvFOasQuPutBRlh9gQihoE1Z6NcKXUPmBBveXDYosZBBg2qx63YZu+LTXrVGncrugWj6/9z5YhFbsf1j1C73rgJPbzkmkYAnZFl/x1rRmlQpJhPn4dMAhNy3o="
+  # OSS_CNPM_BUCKET=xxx
+  - secure: "micg9hWYvchC+Bn+cuLTbfNI2LDxP0cyuWkFetyh1fMlyxvKKLIvFOasQuPutBRlh9gQihoE1Z6NcKXUPmBBveXDYosZBBg2qx63YZu+LTXrVGncrugWj6/9z5YhFbsf1j1C73rgJPbzkmkYAnZFl/x1rRmlQpJhPn4dMAhNy3o="
+  # OSS_CNPM_BUCKET2=xxx
+  - secure: "NXPsNrRWmWjJR75pESpS9DAtndtY8k55pzaYvCLFVaDk8b50UMl7p6C6v19xY7QbJAbZhm7NaswxemUp7b3vYrpojFI1s+cZ90yBY0ygmmzpVBYtYZS+GY/kFR8ciz0gBIlZuEOhQxouhgIV4WT57kCTjthQwcpITQZNQsQXdY0="
 
-script: npm run test-travis
-after_script: npm install coveralls@2 && cat ./coverage/lcov.info | coveralls
+script:
+  - npm run test-cov
+after_script:
+  - npm install coveralls@2 && cat ./coverage/lcov.info | coveralls
