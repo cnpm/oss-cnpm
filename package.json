@@ -19,9 +19,9 @@
     "index.js"
   ],
   "scripts": {
-    "test": "mocha --check-leaks -R spec -t 5000 -r co-mocha test/*.test.js",
-    "test-cov": "istanbul cover node_modules/.bin/_mocha -- --check-leaks -t 5000 -r co-mocha test/*.test.js",
-    "jshint": "jshint .",
+    "test": "mocha --check-leaks -R spec -t 30000 -r co-mocha test/*.test.js",
+    "test-cov": "istanbul cover node_modules/.bin/_mocha -- --check-leaks -t 30000 -r co-mocha test/*.test.js",
+    "lint": "eslint index.js test",
     "autod": "autod -w --prefix '~'"
   },
   "dependencies": {
@@ -32,8 +32,8 @@
     "autod": "*",
     "co": "*",
     "co-mocha": "*",
+    "eslint": "1",
     "istanbul": "*",
-    "jshint": "*",
     "mocha": "*"
   },
   "engines": {

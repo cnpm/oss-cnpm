@@ -14,11 +14,12 @@ env:
   # OSS_CNPM_SECRET=xxx
   - secure: "micg9hWYvchC+Bn+cuLTbfNI2LDxP0cyuWkFetyh1fMlyxvKKLIvFOasQuPutBRlh9gQihoE1Z6NcKXUPmBBveXDYosZBBg2qx63YZu+LTXrVGncrugWj6/9z5YhFbsf1j1C73rgJPbzkmkYAnZFl/x1rRmlQpJhPn4dMAhNy3o="
   # OSS_CNPM_BUCKET=xxx
-  - secure: "micg9hWYvchC+Bn+cuLTbfNI2LDxP0cyuWkFetyh1fMlyxvKKLIvFOasQuPutBRlh9gQihoE1Z6NcKXUPmBBveXDYosZBBg2qx63YZu+LTXrVGncrugWj6/9z5YhFbsf1j1C73rgJPbzkmkYAnZFl/x1rRmlQpJhPn4dMAhNy3o="
+  - secure: "fDTIBqI9mPCwLHAoCqQnm+aBSaYoxz8/qijXQoG1dvDj+OFJEyliMqIFc80aMhQNxdHuzl/3JYG9y65tXM6djuVkxgtL3m8G/yZnPU4uSg7VwvorfsMJ6q2z/NVZfq0Xsvl8yz1929MU/OVLAwtrPHhV9Yj3lpDgcSCG+v25BPE="
   # OSS_CNPM_BUCKET2=xxx
   - secure: "NXPsNrRWmWjJR75pESpS9DAtndtY8k55pzaYvCLFVaDk8b50UMl7p6C6v19xY7QbJAbZhm7NaswxemUp7b3vYrpojFI1s+cZ90yBY0ygmmzpVBYtYZS+GY/kFR8ciz0gBIlZuEOhQxouhgIV4WT57kCTjthQwcpITQZNQsQXdY0="
 
 script:
+  - npm run lint
   - npm run test-cov
 after_script:
   - "npm i codecov.io && cat ./coverage/coverage.json | ./node_modules/codecov.io/bin/codecov.io.js"

@@ -44,11 +44,11 @@ describe('index.test.js', function () {
     },
   ].forEach(function (item) {
     describe(item.name, function () {
-      var nfs = item.nfs;
-      var key = item.prefix + '/-/example2.js-' + process.version;
+      const nfs = item.nfs;
+      const key = item.prefix + '/-/example2.js-' + process.version;
 
       it('should upload file', function* () {
-        var info = yield nfs.upload(__filename, {key: key});
+        const info = yield nfs.upload(__filename, {key: key});
         if (config.mode === 'public') {
           assert.equal(typeof info.url, 'string');
         } else {
@@ -57,15 +57,15 @@ describe('index.test.js', function () {
       });
 
       it('should download file', function* () {
-        var tmpfile = path.join(__dirname, '.tmp-file.js');
+        const tmpfile = path.join(__dirname, '.tmp-file.js');
         yield nfs.download(key, tmpfile);
         assert.equal(fs.readFileSync(tmpfile, 'utf8'), fs.readFileSync(__filename, 'utf8'));
       });
 
       it('should get download stream', function* () {
-        var tmpfile = path.join(__dirname, '.tmp-file.js');
-        var stream = yield nfs.createDownloadStream(key);
-        var ws = fs.createWriteStream(tmpfile);
+        const tmpfile = path.join(__dirname, '.tmp-file.js');
+        const stream = yield nfs.createDownloadStream(key);
+        const ws = fs.createWriteStream(tmpfile);
         function end() {
           return function (callback) {
             ws.on('close', callback);
@@ -82,7 +82,7 @@ describe('index.test.js', function () {
       });
 
       it('should remove the file', function* () {
-        var tmpfile = path.join(__dirname, '.tmp-file.js');
+        const tmpfile = path.join(__dirname, '.tmp-file.js');
         yield nfs.download(key, tmpfile);
         yield nfs.remove(key);
         try {

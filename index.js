@@ -14,7 +14,6 @@
  */
 
 const oss = require('ali-oss');
-const path = require('path');
 const is = require('is-type-of');
 
 exports.create = function (options) {
