@@ -14,7 +14,6 @@
  */
 
 const oss = require('ali-oss');
-const is = require('is-type-of');
 
 exports.create = function (options) {
   return new OssWrapper(options);
@@ -66,14 +65,8 @@ proto.createDownloadStream = function* (key, options) {
   return (yield this.client.getStream(trimKey(key), options)).stream;
 };
 
-proto.url = function* (key) {
+proto.url = function (key) {
   const name = trimKey(key);
-  // cluster client
-  if (is.generatorFunction(this.client.signatureUrl)) {
-    return yield this.client.signatureUrl(name);
-  }
-
-  // normal client
   return this.client.signatureUrl(name);
 };
 

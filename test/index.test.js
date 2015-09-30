@@ -76,8 +76,8 @@ describe('index.test.js', function () {
         assert.equal(fs.readFileSync(tmpfile, 'utf8'), fs.readFileSync(__filename, 'utf8'));
       });
 
-      it('should create signature url', function* () {
-        const url = yield nfs.url(key);
+      it('should create signature url', function () {
+        const url = nfs.url(key);
         assert.equal(typeof url, 'string');
       });
 
