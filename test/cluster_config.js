@@ -4,6 +4,7 @@ const env = process.env;
 
 module.exports = {
   // mode: env.OSS_CNPM_MODE,
+  cdnBaseUrl: 'https://foo.com',
   cluster: [
     {
       endpoint: 'oss-cn-hangzhou.aliyuncs.com',

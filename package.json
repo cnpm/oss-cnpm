@@ -20,11 +20,11 @@
   ],
   "scripts": {
     "test": "mocha --check-leaks -R spec -t 30000 -r co-mocha test/*.test.js",
-    "test-cov": "istanbul cover node_modules/.bin/_mocha -- --check-leaks -t 30000 -r co-mocha test/*.test.js",
+    "test-cov": "istanbul cover _mocha -- --check-leaks -t 30000 -r co-mocha test/*.test.js",
     "lint": "eslint index.js test"
   },
   "dependencies": {
-    "ali-oss": "~3.0.0"
+    "ali-oss": "^4.2.1"
   },
   "devDependencies": {
     "co": "*",

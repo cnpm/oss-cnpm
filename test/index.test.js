@@ -1,4 +1,4 @@
-/**!
+/**
  * Copyright(c) cnpm and other contributors.
  * MIT Licensed
  *
@@ -25,7 +25,7 @@ for (let key in masterSlaveClusterConfig) {
 }
 roundRobinClusterConfig.schedule = 'roundRobin';
 
-describe('index.test.js', function () {
+describe('test/index.test.js', function () {
   [
     {
       name: 'one region oss client',
@@ -79,6 +79,7 @@ describe('index.test.js', function () {
       it('should create signature url', function () {
         const url = nfs.url(key);
         assert.equal(typeof url, 'string');
+        assert.equal(url, 'https://foo.com' + key);
       });
 
       it('should remove the file', function* () {

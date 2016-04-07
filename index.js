@@ -1,4 +1,4 @@
-/**!
+/**
  * Copyright(c) cnpm and other contributors.
  * MIT Licensed
  *
@@ -22,7 +22,6 @@ exports.create = function (options) {
 function OssWrapper(options) {
   // If you want to use oss public mode, please set `options.mode = 'public'`
   this._mode = options.mode === 'public' ? 'public' : 'private';
-  this._publicRoot = options.publicRoot; // 'cnpm.oss.aliyuncs.com'
 
   if (options.cluster) {
     options.schedule = options.schedule || 'masterSlave';
@@ -31,17 +30,7 @@ function OssWrapper(options) {
     this.client = oss(options);
   }
 
-  if (this._mode === 'public') {
-    if (!this._publicRoot) {
-      const endpoint = options.endpoint || 'oss.aliyuncs.com';
-      this._publicRoot = 'http://' + options.bucket + '.' + endpoint;
-    } else {
-      if (this._publicRoot.indexOf('://') < 0) {
-        this._publicRoot = 'http://' + this._publicRoot;
-      }
-      this._publicRoot = this._publicRoot.replace(/\/+$/, '');
-    }
-  }
+  this._cdnBaseUrl = options.cdnBaseUrl;
 }
 
 const proto = OssWrapper.prototype;
@@ -67,6 +56,9 @@ proto.createDownloadStream = function* (key, options) {
 
 proto.url = function (key) {
   const name = trimKey(key);
+  if (this._cdnBaseUrl) {
+    return this.client.getObjectUrl(name, this._cdnBaseUrl);
+  }
   return this.client.signatureUrl(name);
 };
 

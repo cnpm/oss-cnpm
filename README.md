@@ -43,6 +43,7 @@ const oss = require('oss-cnpm');
 const client = oss.create({
   mode: 'public or private',
   schedule: 'masterSlave or roundRobin', // defualt is masterSlave
+  cdnBaseUrl: null, // set your custom cdn baseUrl, like `https://cdn.npm.taobao.org/`
   cluster: [
     {
       accessKeyId: 'your id1',
