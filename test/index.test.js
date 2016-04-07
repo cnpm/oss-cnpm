@@ -1,4 +1,4 @@
-/**!
+/**
  * Copyright(c) cnpm and other contributors.
  * MIT Licensed
  *
@@ -15,6 +15,7 @@
 const path = require('path');
 const fs = require('fs');
 const assert = require('assert');
+const urllib = require('urllib');
 const oss = require('../');
 const config = require('./config');
 const masterSlaveClusterConfig = require('./cluster_config');
@@ -25,7 +26,7 @@ for (let key in masterSlaveClusterConfig) {
 }
 roundRobinClusterConfig.schedule = 'roundRobin';
 
-describe('index.test.js', function () {
+describe('test/index.test.js', function () {
   [
     {
       name: 'one region oss client',
@@ -79,6 +80,32 @@ describe('index.test.js', function () {
       it('should create signature url', function () {
         const url = nfs.url(key);
         assert.equal(typeof url, 'string');
+        assert.equal(url, 'http://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-hangzhou.aliyuncs.com' + key);
+      });
+
+      it('should upload file with headers', function* () {
+        const cacheKey = key + '-cache';
+        const info = yield nfs.upload(__filename, {
+          key: cacheKey,
+        });
+        if (config.mode === 'public') {
+          assert.equal(typeof info.url, 'string');
+          const r = yield urllib.request(info.url, {
+            method: 'HEAD',
+          });
+          console.log(r.headers);
+          assert.equal(r.status, 200);
+          assert.equal(r.headers['cache-control'], 'max-age=0, s-maxage=60');
+        } else {
+          assert.equal(typeof info.key, 'string');
+          const url = nfs.url(info.key);
+          const r = yield urllib.request(url, {
+            method: 'HEAD',
+          });
+          console.log(r.headers);
+          assert.equal(r.status, 200);
+          assert.equal(r.headers['cache-control'], 'max-age=0, s-maxage=60');
+        }
       });
 
       it('should remove the file', function* () {
@@ -92,7 +119,6 @@ describe('index.test.js', function () {
           assert.equal(err.name, 'NoSuchKeyError');
         }
       });
-
     });
   });
 });
