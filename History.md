@@ -1,4 +1,10 @@
 
+2.1.0 / 2016-04-08
+==================
+
+  * feat: support upload file with custom headers
+  * feat: support OSS CDN Url
+
 2.0.1 / 2015-09-30
 ==================
 
