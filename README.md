@@ -44,6 +44,9 @@ const client = oss.create({
   mode: 'public or private',
   schedule: 'masterSlave or roundRobin', // defualt is masterSlave
   cdnBaseUrl: null, // set your custom cdn baseUrl, like `https://cdn.npm.taobao.org/`
+  defaultHeaders: {
+    'Cache-Control': 'max-age=0, s-maxage=86400',
+  },
   cluster: [
     {
       accessKeyId: 'your id1',

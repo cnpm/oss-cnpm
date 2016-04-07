@@ -3,8 +3,12 @@
 const env = process.env;
 
 module.exports = {
+  // mode: 'public',
   // mode: env.OSS_CNPM_MODE,
-  cdnBaseUrl: 'https://foo.com',
+  cdnBaseUrl: 'http://' + env.OSS_CNPM_BUCKET + '.oss-cn-hangzhou.aliyuncs.com',
+  defaultHeaders: {
+    'Cache-Control': 'max-age=0, s-maxage=60',
+  },
   cluster: [
     {
       endpoint: 'oss-cn-hangzhou.aliyuncs.com',

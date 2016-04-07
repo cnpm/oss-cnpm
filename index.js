@@ -31,13 +31,17 @@ function OssWrapper(options) {
   }
 
   this._cdnBaseUrl = options.cdnBaseUrl;
+  this._defaultHeaders = options.defaultHeaders;
 }
 
 const proto = OssWrapper.prototype;
 
 proto.upload = function* (filePath, options) {
   const key = trimKey(options.key);
-  const result = yield this.client.put(key, filePath);
+  // https://github.com/ali-sdk/ali-oss#putname-file-options
+  const result = yield this.client.put(key, filePath, {
+    headers: this._defaultHeaders,
+  });
   if (this._mode === 'public') {
     return { url: result.url };
   }

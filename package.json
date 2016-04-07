@@ -19,8 +19,8 @@
     "index.js"
   ],
   "scripts": {
-    "test": "mocha --check-leaks -R spec -t 30000 -r co-mocha test/*.test.js",
-    "test-cov": "istanbul cover _mocha -- --check-leaks -t 30000 -r co-mocha test/*.test.js",
+    "test": "mocha -R spec -t 30000 -r co-mocha test/*.test.js",
+    "test-cov": "istanbul cover _mocha -- -t 30000 -r co-mocha test/*.test.js",
     "lint": "eslint index.js test"
   },
   "dependencies": {
@@ -31,7 +31,8 @@
     "co-mocha": "*",
     "eslint": "1",
     "istanbul": "*",
-    "mocha": "*"
+    "mocha": "*",
+    "urllib": "^2.8.0"
   },
   "engines": {
     "node": ">= 1.0.0"
