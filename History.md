@@ -1,4 +1,10 @@
 
+2.2.0 / 2018-01-03
+==================
+
+**others**
+  * [[`03235fe`](http://github.com/cnpm/oss-cnpm/commit/03235fe271d67e2a6b0f4a48b877549895366db1)] - signature supports additional options (hyj1991 <<hugh.hyj@alibaba-inc.com>>)
+
 2.1.0 / 2016-04-08
 ==================
 
