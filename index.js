@@ -58,12 +58,12 @@ proto.createDownloadStream = function* (key, options) {
   return (yield this.client.getStream(trimKey(key), options)).stream;
 };
 
-proto.url = function (key) {
+proto.url = function (key, options) {
   const name = trimKey(key);
   if (this._cdnBaseUrl) {
     return this.client.getObjectUrl(name, this._cdnBaseUrl);
   }
-  return this.client.signatureUrl(name);
+  return this.client.signatureUrl(name, options);
 };
 
 proto.remove = function* (key) {
