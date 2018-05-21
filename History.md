@@ -1,4 +1,10 @@
 
+2.3.0 / 2018-05-21
+==================
+
+**features**
+  * [[`9cdf8c9`](http://github.com/cnpm/oss-cnpm/commit/9cdf8c9efc54e4fc545378bddf13084cad3f6a33)] - feat: nfs.url() support options.bucket (#18) (fengmk2 <<fengmk2@gmail.com>>)
+
 2.2.0 / 2018-01-03
 ==================
 
