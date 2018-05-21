@@ -27,11 +27,11 @@
     "ali-oss": "^4.2.1"
   },
   "devDependencies": {
-    "co": "*",
-    "co-mocha": "*",
+    "co": "4",
+    "co-mocha": "1",
     "eslint": "1",
     "istanbul": "*",
-    "mocha": "*",
+    "mocha": "3",
     "urllib": "^2.8.0"
   },
   "engines": {
