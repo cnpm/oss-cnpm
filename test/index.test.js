@@ -1,16 +1,4 @@
-/**
- * Copyright(c) cnpm and other contributors.
- * MIT Licensed
- *
- * Authors:
- *   fengmk2 <m@fengmk2.com> (http://fengmk2.com)
- */
-
 'use strict';
-
-/**
- * Module dependencies.
- */
 
 const path = require('path');
 const fs = require('fs');
@@ -119,6 +107,38 @@ describe('test/index.test.js', function () {
           assert.equal(err.name, 'NoSuchKeyError');
         }
       });
+    });
+  });
+
+  describe('cluster client', () => {
+    it('should create signature url with bucket2', () => {
+      const nfs = oss.create({
+        cluster: masterSlaveClusterConfig.cluster,
+      });
+      const key = '/foo/bar/ok.tgz';
+      let url = nfs.url(key, { bucket: process.env.OSS_CNPM_BUCKET2 });
+      assert.equal(typeof url, 'string');
+      console.log(url);
+      assert.equal(url.indexOf('http://' + process.env.OSS_CNPM_BUCKET2 + '.oss-cn-shenzhen.aliyuncs.com' + key), 0);
+
+      url = nfs.url(key, { bucket: process.env.OSS_CNPM_BUCKET });
+      assert.equal(typeof url, 'string');
+      console.log(url);
+      assert.equal(url.indexOf('http://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-hangzhou.aliyuncs.com' + key), 0);
+
+      // default bucket
+      url = nfs.url(key, { bucket: process.env.OSS_CNPM_BUCKET2 + '-not-exists' });
+      assert.equal(typeof url, 'string');
+      console.log(url);
+      assert.equal(url.indexOf('http://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-hangzhou.aliyuncs.com' + key), 0);
+
+      // not availables
+      nfs.client.availables[1] = false;
+      url = nfs.url(key, { bucket: process.env.OSS_CNPM_BUCKET2 });
+      nfs.client.availables[1] = true;
+      assert.equal(typeof url, 'string');
+      console.log(url);
+      assert.equal(url.indexOf('http://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-hangzhou.aliyuncs.com' + key), 0);
     });
   });
 });

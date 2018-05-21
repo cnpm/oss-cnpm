@@ -1,17 +1,4 @@
-/**
- * Copyright(c) cnpm and other contributors.
- * MIT Licensed
- *
- * Authors:
- *  dead_horse <dead_horse@qq.com> (http://deadhorse.me)
- *  fengmk2 <fengmk2@gmail.com> (http://fengmk2.com)
- */
-
 'use strict';
-
-/**
- * Module dependencies.
- */
 
 const oss = require('ali-oss');
 
@@ -26,6 +13,7 @@ function OssWrapper(options) {
   if (options.cluster) {
     options.schedule = options.schedule || 'masterSlave';
     this.client = new oss.ClusterClient(options);
+    this._cluster = true;
   } else {
     this.client = oss(options);
   }
@@ -63,11 +51,28 @@ proto.url = function (key, options) {
   if (this._cdnBaseUrl) {
     return this.client.getObjectUrl(name, this._cdnBaseUrl);
   }
+  if (this._cluster && options && options.bucket) {
+    // select a bucket client
+    const client = this._selectClientByBucket(options.bucket);
+    return client.signatureUrl(name, options);
+  }
   return this.client.signatureUrl(name, options);
 };
 
 proto.remove = function* (key) {
   yield this.client.delete(trimKey(key));
+};
+
+proto._selectClientByBucket = function(bucket) {
+  const clients = this.client.clients;
+  const len = clients.length;
+  for (let i = 0; i < len; i++) {
+    const client = clients[i];
+    if (this.client.availables[i] && client.options.bucket === bucket) {
+      return client;
+    }
+  }
+  return this.client.chooseAvailable();
 };
 
 function trimKey(key) {
