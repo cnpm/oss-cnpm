@@ -1,4 +1,10 @@
 
+2.4.1 / 2018-06-05
+==================
+
+**fixes**
+  * [[`44a6a75`](http://github.com/cnpm/oss-cnpm/commit/44a6a75a7e993e02381d7d6ce673f904865501d9)] - fix: should keep one url when bucket missing (fengmk2 <<fengmk2@gmail.com>>)
+
 2.4.0 / 2018-06-05
 ==================
 
