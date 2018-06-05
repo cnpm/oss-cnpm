@@ -140,5 +140,39 @@ describe('test/index.test.js', function () {
       console.log(url);
       assert.equal(url.indexOf('http://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-hangzhou.aliyuncs.com' + key), 0);
     });
+
+    it('should multi urls', () => {
+      const nfs = oss.create({
+        cluster: masterSlaveClusterConfig.cluster,
+      });
+      const key = '/foo/bar/ok.tgz';
+      let urls = nfs.urls(key, { bucket: process.env.OSS_CNPM_BUCKET2 });
+      assert(Array.isArray(urls));
+      assert(urls.length === 2);
+      console.log(urls);
+      assert.equal(urls[0].indexOf('http://' + process.env.OSS_CNPM_BUCKET2 + '.oss-cn-shenzhen.aliyuncs.com' + key), 0);
+
+      urls = nfs.urls(key, { bucket: process.env.OSS_CNPM_BUCKET });
+      assert(Array.isArray(urls));
+      assert(urls.length === 2);
+      console.log(urls);
+      assert.equal(urls[0].indexOf('http://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-hangzhou.aliyuncs.com' + key), 0);
+
+      // default bucket
+      urls = nfs.urls(key, { bucket: process.env.OSS_CNPM_BUCKET2 + '-not-exists' });
+      assert(Array.isArray(urls));
+      assert(urls.length === 2);
+      console.log(urls);
+      assert.equal(urls[0].indexOf('http://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-hangzhou.aliyuncs.com' + key), 0);
+
+      // not availables
+      nfs.client.availables[1] = false;
+      urls = nfs.urls(key, { bucket: process.env.OSS_CNPM_BUCKET2 });
+      nfs.client.availables[1] = true;
+      assert(Array.isArray(urls));
+      assert(urls.length === 1);
+      console.log(urls);
+      assert.equal(urls[0].indexOf('http://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-hangzhou.aliyuncs.com' + key), 0);
+    });
   });
 });
