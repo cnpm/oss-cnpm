@@ -59,6 +59,26 @@ proto.url = function (key, options) {
   return this.client.signatureUrl(name, options);
 };
 
+proto.urls = function(key, options) {
+  const name = trimKey(key);
+  let cdnUrl;
+  if (this._cdnBaseUrl) {
+    cdnUrl = this.client.getObjectUrl(name, this._cdnBaseUrl);
+  }
+
+  let urls = [];
+  if (this._cluster && options && options.bucket) {
+    urls = this._getAllAvailableUrls(name, options);
+    if (urls.length === 0) {
+      urls.push(this.client.signatureUrl(name, options));
+    }
+  }
+  if (cdnUrl) {
+    urls.unshift(cdnUrl);
+  }
+  return urls;
+};
+
 proto.remove = function* (key) {
   yield this.client.delete(trimKey(key));
 };
@@ -73,6 +93,24 @@ proto._selectClientByBucket = function(bucket) {
     }
   }
   return this.client.chooseAvailable();
+};
+
+proto._getAllAvailableUrls = function(name, options) {
+  const bucket = options.bucket;
+  const clients = this.client.clients;
+  const len = clients.length;
+  const urls = [];
+  for (let i = 0; i < len; i++) {
+    const client = clients[i];
+    if (!this.client.availables[i]) continue;
+
+    if (bucket && client.options.bucket === bucket) {
+      urls.unshift(client.signatureUrl(name, options));
+    } else {
+      urls.push(client.signatureUrl(name, options));
+    }
+  }
+  return urls;
 };
 
 function trimKey(key) {
