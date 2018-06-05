@@ -173,6 +173,12 @@ describe('test/index.test.js', function () {
       assert(urls.length === 1);
       console.log(urls);
       assert.equal(urls[0].indexOf('http://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-hangzhou.aliyuncs.com' + key), 0);
+
+      urls = nfs.urls(key);
+      assert(Array.isArray(urls));
+      assert(urls.length === 1);
+      console.log(urls);
+      assert.equal(urls[0].indexOf('http://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-hangzhou.aliyuncs.com' + key), 0);
     });
   });
 });

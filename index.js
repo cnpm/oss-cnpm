@@ -69,9 +69,9 @@ proto.urls = function(key, options) {
   let urls = [];
   if (this._cluster && options && options.bucket) {
     urls = this._getAllAvailableUrls(name, options);
-    if (urls.length === 0) {
-      urls.push(this.client.signatureUrl(name, options));
-    }
+  }
+  if (urls.length === 0) {
+    urls.push(this.client.signatureUrl(name, options));
   }
   if (cdnUrl) {
     urls.unshift(cdnUrl);
