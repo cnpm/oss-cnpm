@@ -1,4 +1,10 @@
 
+2.4.0 / 2018-06-05
+==================
+
+**features**
+  * [[`6bca566`](http://github.com/cnpm/oss-cnpm/commit/6bca56654ad04604d57912d51f715fc3bfb5c261)] - feat: support nfs.urls(key, options) (#19) (fengmk2 <<fengmk2@gmail.com>>)
+
 2.3.0 / 2018-05-21
 ==================
 
