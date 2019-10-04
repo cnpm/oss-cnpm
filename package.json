@@ -21,10 +21,13 @@
   "scripts": {
     "test": "mocha -R spec -t 30000 -r co-mocha test/*.test.js",
     "test-cov": "istanbul cover _mocha -- -t 30000 -r co-mocha test/*.test.js",
-    "lint": "eslint index.js test"
+    "lint": "eslint index.js test",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
-    "ali-oss": "^4.2.1"
+    "ali-oss": "^4.2.1",
+    "snyk": "^1.230.5"
   },
   "devDependencies": {
     "co": "4",
@@ -37,5 +40,6 @@
   "engines": {
     "node": ">= 1.0.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "snyk": true
 }
