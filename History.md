@@ -1,4 +1,10 @@
 
+2.5.0 / 2020-07-27
+==================
+
+**features**
+  * [[`8550fcf`](http://github.com/cnpm/oss-cnpm/commit/8550fcfb85c33878001676cd2e3132a7a62c70f8)] - feat: support encode name (#23) (fengmk2 <<fengmk2@gmail.com>>)
+
 2.4.1 / 2018-06-05
 ==================
 
