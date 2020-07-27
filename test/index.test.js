@@ -71,6 +71,12 @@ describe('test/index.test.js', function () {
         assert.equal(url, 'http://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-hangzhou.aliyuncs.com' + key);
       });
 
+      it('should create signature url with ":"', function () {
+        const url = nfs.url('///dist/tensorflow/images/sha256%3A02fde75423b21c534ca1bf6ef071c7272a2b37d60028b7fe70f9fd3a8d43d2d7');
+        assert.equal(typeof url, 'string');
+        assert.equal(url, 'http://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-hangzhou.aliyuncs.com/dist/tensorflow/images/sha256%3A02fde75423b21c534ca1bf6ef071c7272a2b37d60028b7fe70f9fd3a8d43d2d7');
+      });
+
       it('should upload file with headers', function* () {
         const cacheKey = key + '-cache';
         const info = yield nfs.upload(__filename, {
