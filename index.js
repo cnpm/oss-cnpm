@@ -114,5 +114,8 @@ proto._getAllAvailableUrls = function(name, options) {
 };
 
 function trimKey(key) {
-  return key ? key.replace(/^\//, '') : '';
+  key = key ? key.replace(/^\//, '') : '';
+  // %3A => :
+  key = key && key.indexOf('%3A') >= 0 ? decodeURIComponent(key) : key;
+  return key;
 }
