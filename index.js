@@ -44,27 +44,27 @@ proto.download = function* (key, filepath, options) {
 
 /**
  * @param {string} prefix - file prefix
+ * @param {object} [options] -
+ * @param {number} [options.max] - default 10000
  * @return {Generator<string[]>} -
  */
-proto.list = function* (prefix) {
-  return yield this._list(prefix);
-};
-
-proto._list = function* (prefix, options) {
-  const res = yield this.client.list({
-    prefix: prefix,
-    'max-keys': 1000,
-    marker: options && options.marker,
-  });
-  const objects = res.objects || [];
-  const prefixLength = prefix.length;
-  let files = objects.map(o => o.name.substring(prefixLength));
-  if (res.nextMarker) {
-    const nextFiles = yield this._list(prefix, {
-      marker: res.nextMarker,
+proto.list = function* (prefix, options) {
+  const max = options && options.max || 10000;
+  const stepMax = Math.min(1000, max);
+  let marker = null;
+  let files = [];
+  do {
+    const res = yield this.client.list({
+      prefix: prefix,
+      'max-keys': stepMax,
+      marker: marker,
     });
+    const objects = res.objects || [];
+    const prefixLength = prefix.length;
+    const nextFiles = objects.map(o => o.name.substring(prefixLength));
     files = files.concat(nextFiles);
-  }
+    marker = res.nextMarker;
+  } while (marker && files.length < max);
   return files;
 };
 
