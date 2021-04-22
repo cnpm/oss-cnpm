@@ -42,6 +42,32 @@ proto.download = function* (key, filepath, options) {
   yield this.client.get(trimKey(key), filepath, options);
 };
 
+/**
+ * @param {string} prefix - file prefix
+ * @return {Generator<string[]>} -
+ */
+proto.list = function* (prefix) {
+  return yield this._list(prefix);
+};
+
+proto._list = function* (prefix, options) {
+  const res = yield this.client.list({
+    prefix: prefix,
+    'max-keys': 1000,
+    marker: options && options.marker,
+  });
+  const objects = res.objects || [];
+  const prefixLength = prefix.length;
+  let files = objects.map(o => o.name.substring(prefixLength));
+  if (res.nextMarker) {
+    const nextFiles = yield this._list(prefix, {
+      marker: res.nextMarker,
+    });
+    files = files.concat(nextFiles);
+  }
+  return files;
+};
+
 proto.createDownloadStream = function* (key, options) {
   return (yield this.client.getStream(trimKey(key), options)).stream;
 };

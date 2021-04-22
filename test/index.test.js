@@ -113,6 +113,12 @@ describe('test/index.test.js', function () {
           assert.equal(err.name, 'NoSuchKeyError');
         }
       });
+
+      it('should list files', function* () {
+        const files = yield nfs.list('typescript/-/');
+        assert(files);
+        assert(files.length);
+      });
     });
   });
 
