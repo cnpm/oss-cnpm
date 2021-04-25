@@ -119,6 +119,14 @@ describe('test/index.test.js', function () {
         assert(files);
         assert(files.length);
       });
+
+      it('should list with max', function* () {
+        const files = yield nfs.list('-/', {
+          max: 1,
+        });
+        assert(files);
+        assert(files.length === 1);
+      });
     });
   });
 

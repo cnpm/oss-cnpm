@@ -64,7 +64,7 @@ proto.list = function* (prefix, options) {
     const nextFiles = objects.map(o => o.name.substring(prefixLength));
     files = files.concat(nextFiles);
     marker = res.nextMarker;
-  } while (marker && files.length < max);
+  } while (marker && files.length <= max);
   return files;
 };
 
