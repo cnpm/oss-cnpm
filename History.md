@@ -1,4 +1,10 @@
 
+2.6.0 / 2021-04-30
+==================
+
+**features**
+  * [[`a265b4c`](http://github.com/cnpm/oss-cnpm/commit/a265b4c126aabd30f56eefeedda19a5f143996c3)] - feat: impl list api (#24) (killa <<killa123@126.com>>)
+
 2.5.0 / 2020-07-27
 ==================
 
