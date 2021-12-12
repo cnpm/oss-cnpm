@@ -1,6 +1,6 @@
 {
   "name": "oss-cnpm",
-  "version": "2.6.0",
+  "version": "3.0.0",
   "description": "a oss api wraper for cnpmjs.org nfs",
   "keywords": [
     "oss",
@@ -19,23 +19,33 @@
     "index.js"
   ],
   "scripts": {
-    "test": "mocha -R spec -t 30000 -r co-mocha test/*.test.js",
-    "test-cov": "istanbul cover _mocha -- -t 30000 -r co-mocha test/*.test.js",
-    "lint": "eslint index.js test"
+    "lint": "eslint . --ext .js",
+    "lint:fix": "eslint . --ext .js --fix",
+    "test": "npm run lint:fix && npm run test-local",
+    "test-local": "egg-bin test --full-trace",
+    "t": "egg-bin test --changed --full-trace",
+    "cov": "egg-bin cov --full-trace",
+    "ci": "npm run lint && npm run cov"
   },
   "dependencies": {
-    "ali-oss": "^4.2.1"
+    "ali-oss": "^6.16.0"
   },
   "devDependencies": {
-    "co": "4",
-    "co-mocha": "1",
-    "eslint": "1",
-    "istanbul": "*",
-    "mocha": "3",
+    "egg-bin": "^4.16.4",
+    "egg-ci": "^1.19.0",
+    "eslint": "^7.32.0",
+    "eslint-config-egg": "^9.0.0",
     "urllib": "^2.8.0"
   },
   "engines": {
-    "node": ">= 1.0.0"
+    "node": ">= 16.0.0"
+  },
+  "ci": {
+    "type": "github",
+    "os": {
+      "github": "linux, macos"
+    },
+    "version": "16"
   },
   "license": "MIT"
 }
