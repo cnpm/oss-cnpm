@@ -1,6 +1,6 @@
 'use strict';
 
-const oss = require('ali-oss');
+const Client = require('ali-oss');
 
 function trimKey(key) {
   key = key ? key.replace(/^\//, '') : '';
@@ -16,10 +16,10 @@ class OssWrapper {
 
     if (options.cluster) {
       options.schedule = options.schedule || 'masterSlave';
-      this.client = new oss.ClusterClient(options);
+      this.client = new Client.ClusterClient(options);
       this._cluster = true;
     } else {
-      this.client = oss(options);
+      this.client = new Client(options);
     }
 
     this._cdnBaseUrl = options.cdnBaseUrl;
@@ -38,8 +38,29 @@ class OssWrapper {
     return { key };
   }
 
-  async uploadBuffer(bytes, options) {
+  async uploadBytes(bytes, options) {
+    if (typeof bytes === 'string') {
+      bytes = Buffer.from(bytes);
+    }
     return await this.upload(bytes, options);
+  }
+
+  // options.position, default is '0'
+  async appendBytes(bytes, options) {
+    if (this._cluster) throw new TypeError('cluster not support appendBytes');
+    // nextAppendPosition on result
+    const key = trimKey(options.key);
+    if (typeof bytes === 'string') {
+      bytes = Buffer.from(bytes);
+    }
+    return await this.client.append(key, bytes, {
+      position: options.position,
+    });
+  }
+
+  async readBytes(key) {
+    const { content } = await this.client.get(trimKey(key));
+    return content;
   }
 
   async download(key, filepath, options) {

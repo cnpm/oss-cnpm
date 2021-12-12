@@ -28,7 +28,7 @@
     "ci": "npm run lint && npm run cov"
   },
   "dependencies": {
-    "ali-oss": "^6.16.0"
+    "ali-oss": "^6.17.0"
   },
   "devDependencies": {
     "egg-bin": "^4.16.4",

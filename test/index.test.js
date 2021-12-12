@@ -45,6 +45,27 @@ describe('test/index.test.js', () => {
         }
       });
 
+      it('should upload bytes', async () => {
+        const bytesKey = `${key}-upload-bytes`;
+        await nfs.uploadBytes('hello oss-cnpm 😄', { key: bytesKey });
+        const bytes = await nfs.readBytes(bytesKey);
+        assert(bytes.toString() === 'hello oss-cnpm 😄');
+      });
+
+      if (!nfs._cluster) {
+        it('should append bytes', async () => {
+          const bytesKey = `${key}-append-bytes`;
+          await nfs.remove(bytesKey);
+
+          const { nextAppendPosition } = await nfs.appendBytes('hello oss-cnpm 😄', { key: bytesKey });
+          assert(nextAppendPosition);
+          console.log('nextAppendPosition', nextAppendPosition);
+          await nfs.appendBytes(' world (*´▽｀)ノノ\nNew line', { key: bytesKey, position: nextAppendPosition });
+          const bytes = await nfs.readBytes(bytesKey);
+          assert(bytes.toString() === 'hello oss-cnpm 😄 world (*´▽｀)ノノ\nNew line');
+        });
+      }
+
       it('should download file', async () => {
         const tmpfile = path.join(__dirname, '.tmp-file.js');
         await nfs.download(key, tmpfile);
@@ -68,7 +89,8 @@ describe('test/index.test.js', () => {
       it('should create signature url', async () => {
         const url = await nfs.url(key);
         assert.equal(typeof url, 'string');
-        assert(url.startsWith('https://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-beijing.aliyuncs.com' + key));
+        assert(url.startsWith('https://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-beijing.aliyuncs.com' + key)
+          || url.startsWith('https://' + process.env.OSS_CNPM_BUCKET2 + '.oss-cn-beijing.aliyuncs.com' + key));
       });
 
       it('should create signature url with ":"', async () => {
