@@ -39,6 +39,11 @@ jobs:
 
     - name: Continuous Integration
       run: npm run ci
+      env:
+        OSS_CNPM_BUCKET: ${{ secrets.OSS_CNPM_BUCKET }}
+        OSS_CNPM_BUCKET2: ${{ secrets.OSS_CNPM_BUCKET2 }}
+        OSS_CNPM_ID: ${{ secrets.OSS_CNPM_ID }}
+        OSS_CNPM_SECRET: ${{ secrets.OSS_CNPM_SECRET }}
 
     - name: Code Coverage
       uses: codecov/codecov-action@v1
