@@ -1,4 +1,10 @@
 
+3.0.1 / 2021-12-12
+==================
+
+**others**
+  * [[`259aeeb`](http://github.com/cnpm/oss-cnpm/commit/259aeebbe5f459c4abf5dd3a687248056ebdfae5)] - 🐛 FIX: appendBytes support custom headers (#26) (fengmk2 <<fengmk2@gmail.com>>)
+
 3.0.0 / 2021-12-12
 ==================
 
