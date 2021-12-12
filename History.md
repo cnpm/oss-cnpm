@@ -1,4 +1,10 @@
 
+3.0.0 / 2021-12-12
+==================
+
+**others**
+  * [[`5657ec0`](http://github.com/cnpm/oss-cnpm/commit/5657ec0fae0d86901f45f3ca5a97b4b4d8fae3d6)] - ‼️ BREAKING: refactor with async/await (#25) (fengmk2 <<fengmk2@gmail.com>>)
+
 2.6.0 / 2021-04-30
 ==================
 
