@@ -53,9 +53,7 @@ class OssWrapper {
     if (typeof bytes === 'string') {
       bytes = Buffer.from(bytes);
     }
-    return await this.client.append(key, bytes, {
-      position: options.position,
-    });
+    return await this.client.append(key, bytes, options);
   }
 
   async readBytes(key) {
