@@ -54,15 +54,31 @@ describe('test/index.test.js', () => {
 
       if (!nfs._cluster) {
         it('should append bytes', async () => {
-          const bytesKey = `${key}-append-bytes`;
+          const bytesKey = `${key}-append-bytes.log`;
           await nfs.remove(bytesKey);
 
-          const { nextAppendPosition } = await nfs.appendBytes('hello oss-cnpm 😄', { key: bytesKey });
+          const contentType = 'text/plain; charset=UTF-8';
+          const { nextAppendPosition } = await nfs.appendBytes('hello oss-cnpm 😄', {
+            key: bytesKey,
+            headers: {
+              'Content-Type': contentType,
+            },
+          });
           assert(nextAppendPosition);
           console.log('nextAppendPosition', nextAppendPosition);
-          await nfs.appendBytes(' world (*´▽｀)ノノ\nNew line', { key: bytesKey, position: nextAppendPosition });
+          await nfs.appendBytes(' world (*´▽｀)ノノ\nNew line', {
+            key: bytesKey,
+            position: nextAppendPosition,
+            headers: {
+              'Content-Type': contentType,
+            },
+          });
           const bytes = await nfs.readBytes(bytesKey);
           assert(bytes.toString() === 'hello oss-cnpm 😄 world (*´▽｀)ノノ\nNew line');
+          const url = await nfs.url(bytesKey);
+          const { headers } = await urllib.request(url);
+          console.log(url);
+          assert(headers['content-type'] === 'text/plain; charset=UTF-8');
         });
       }
 
