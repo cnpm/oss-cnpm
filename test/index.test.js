@@ -65,16 +65,17 @@ describe('test/index.test.js', () => {
         assert.equal(fs.readFileSync(tmpfile, 'utf8'), fs.readFileSync(__filename, 'utf8'));
       });
 
-      it('should create signature url', function() {
-        const url = nfs.url(key);
+      it('should create signature url', async () => {
+        const url = await nfs.url(key);
         assert.equal(typeof url, 'string');
-        assert.equal(url, 'http://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-hangzhou.aliyuncs.com' + key);
+        assert(url.startsWith('https://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-beijing.aliyuncs.com' + key));
       });
 
-      it('should create signature url with ":"', function() {
-        const url = nfs.url('///dist/tensorflow/images/sha256%3A02fde75423b21c534ca1bf6ef071c7272a2b37d60028b7fe70f9fd3a8d43d2d7');
+      it('should create signature url with ":"', async () => {
+        const url = await nfs.url('///dist/tensorflow/images/sha256%3A02fde75423b21c534ca1bf6ef071c7272a2b37d60028b7fe70f9fd3a8d43d2d7');
         assert.equal(typeof url, 'string');
-        assert.equal(url, 'http://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-hangzhou.aliyuncs.com/dist/tensorflow/images/sha256%3A02fde75423b21c534ca1bf6ef071c7272a2b37d60028b7fe70f9fd3a8d43d2d7');
+        assert(url.startsWith('https://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-beijing.aliyuncs.com/dist/tensorflow/images/sha256%3A02fde75423b21c534ca1bf6ef071c7272a2b37d60028b7fe70f9fd3a8d43d2d7')
+          || url.startsWith('https://' + process.env.OSS_CNPM_BUCKET2 + '.oss-cn-beijing.aliyuncs.com/dist/tensorflow/images/sha256%3A02fde75423b21c534ca1bf6ef071c7272a2b37d60028b7fe70f9fd3a8d43d2d7'));
       });
 
       it('should upload file with headers', async () => {
@@ -85,18 +86,19 @@ describe('test/index.test.js', () => {
         if (config.mode === 'public') {
           assert.equal(typeof info.url, 'string');
           const r = await urllib.request(info.url, {
-            method: 'HEAD',
+            method: 'GET',
           });
-          console.log(r.headers);
+          // console.log(r.status, r.headers);
           assert.equal(r.status, 200);
           assert.equal(r.headers['cache-control'], 'max-age=0, s-maxage=60');
         } else {
           assert.equal(typeof info.key, 'string');
-          const url = nfs.url(info.key);
+          const url = await nfs.url(info.key);
+          // console.log(url);
           const r = await urllib.request(url, {
-            method: 'HEAD',
+            method: 'GET',
           });
-          console.log(r.headers);
+          // console.log(r.status, r.headers);
           assert.equal(r.status, 200);
           assert.equal(r.headers['cache-control'], 'max-age=0, s-maxage=60');
         }
@@ -115,13 +117,15 @@ describe('test/index.test.js', () => {
       });
 
       it('should list files', async () => {
-        const files = await nfs.list('typescript/-/');
+        const prefix = item.prefix.substring(1);
+        const files = await nfs.list(`${prefix}/-/`);
         assert(files);
         assert(files.length);
       });
 
       it('should list with max', async () => {
-        const files = await nfs.list('-/', {
+        const prefix = item.prefix.substring(1);
+        const files = await nfs.list(`${prefix}/-/`, {
           max: 1,
         });
         assert(files);
@@ -131,74 +135,74 @@ describe('test/index.test.js', () => {
   });
 
   describe('cluster client', () => {
-    it('should create signature url with bucket2', () => {
+    it('should create signature url with bucket2', async () => {
       const nfs = new Client({
         cluster: masterSlaveClusterConfig.cluster,
       });
       const key = '/foo/bar/ok.tgz';
-      let url = nfs.url(key, { bucket: process.env.OSS_CNPM_BUCKET2 });
+      let url = await nfs.url(key, { bucket: process.env.OSS_CNPM_BUCKET2 });
       assert.equal(typeof url, 'string');
-      console.log(url);
-      assert.equal(url.indexOf('http://' + process.env.OSS_CNPM_BUCKET2 + '.oss-cn-shenzhen.aliyuncs.com' + key), 0);
+      // console.log(url);
+      assert.equal(url.indexOf('https://' + process.env.OSS_CNPM_BUCKET2 + '.oss-cn-beijing.aliyuncs.com' + key), 0);
 
-      url = nfs.url(key, { bucket: process.env.OSS_CNPM_BUCKET });
+      url = await nfs.url(key, { bucket: process.env.OSS_CNPM_BUCKET });
       assert.equal(typeof url, 'string');
-      console.log(url);
-      assert.equal(url.indexOf('http://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-hangzhou.aliyuncs.com' + key), 0);
+      // console.log(url);
+      assert.equal(url.indexOf('https://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-beijing.aliyuncs.com' + key), 0);
 
       // default bucket
-      url = nfs.url(key, { bucket: process.env.OSS_CNPM_BUCKET2 + '-not-exists' });
+      url = await nfs.url(key, { bucket: process.env.OSS_CNPM_BUCKET2 + '-not-exists' });
       assert.equal(typeof url, 'string');
-      console.log(url);
-      assert.equal(url.indexOf('http://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-hangzhou.aliyuncs.com' + key), 0);
+      // console.log(url);
+      assert.equal(url.indexOf('https://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-beijing.aliyuncs.com' + key), 0);
 
       // not availables
       nfs.client.availables[1] = false;
-      url = nfs.url(key, { bucket: process.env.OSS_CNPM_BUCKET2 });
+      url = await nfs.url(key, { bucket: process.env.OSS_CNPM_BUCKET2 });
       nfs.client.availables[1] = true;
       assert.equal(typeof url, 'string');
-      console.log(url);
-      assert.equal(url.indexOf('http://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-hangzhou.aliyuncs.com' + key), 0);
+      // console.log(url);
+      assert.equal(url.indexOf('https://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-beijing.aliyuncs.com' + key), 0);
     });
 
-    it('should multi urls', () => {
+    it('should multi urls', async () => {
       const nfs = new Client({
         cluster: masterSlaveClusterConfig.cluster,
       });
       const key = '/foo/bar/ok.tgz';
-      let urls = nfs.urls(key, { bucket: process.env.OSS_CNPM_BUCKET2 });
+      let urls = await nfs.urls(key, { bucket: process.env.OSS_CNPM_BUCKET2 });
       assert(Array.isArray(urls));
       assert(urls.length === 2);
-      console.log(urls);
-      assert.equal(urls[0].indexOf('http://' + process.env.OSS_CNPM_BUCKET2 + '.oss-cn-shenzhen.aliyuncs.com' + key), 0);
+      // console.log(urls);
+      assert.equal(urls[0].indexOf('https://' + process.env.OSS_CNPM_BUCKET2 + '.oss-cn-beijing.aliyuncs.com' + key), 0);
 
-      urls = nfs.urls(key, { bucket: process.env.OSS_CNPM_BUCKET });
+      urls = await nfs.urls(key, { bucket: process.env.OSS_CNPM_BUCKET });
       assert(Array.isArray(urls));
       assert(urls.length === 2);
-      console.log(urls);
-      assert.equal(urls[0].indexOf('http://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-hangzhou.aliyuncs.com' + key), 0);
+      // console.log(urls);
+      assert.equal(urls[0].indexOf('https://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-beijing.aliyuncs.com' + key), 0);
 
       // default bucket
-      urls = nfs.urls(key, { bucket: process.env.OSS_CNPM_BUCKET2 + '-not-exists' });
+      urls = await nfs.urls(key, { bucket: process.env.OSS_CNPM_BUCKET2 + '-not-exists' });
       assert(Array.isArray(urls));
       assert(urls.length === 2);
-      console.log(urls);
-      assert.equal(urls[0].indexOf('http://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-hangzhou.aliyuncs.com' + key), 0);
+      // console.log(urls);
+      assert.equal(urls[0].indexOf('https://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-beijing.aliyuncs.com' + key), 0);
 
       // not availables
       nfs.client.availables[1] = false;
-      urls = nfs.urls(key, { bucket: process.env.OSS_CNPM_BUCKET2 });
+      urls = await nfs.urls(key, { bucket: process.env.OSS_CNPM_BUCKET2 });
       nfs.client.availables[1] = true;
       assert(Array.isArray(urls));
       assert(urls.length === 1);
-      console.log(urls);
-      assert.equal(urls[0].indexOf('http://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-hangzhou.aliyuncs.com' + key), 0);
+      // console.log(urls);
+      assert.equal(urls[0].indexOf('https://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-beijing.aliyuncs.com' + key), 0);
 
-      urls = nfs.urls(key);
+      urls = await nfs.urls(key);
       assert(Array.isArray(urls));
       assert(urls.length === 1);
-      console.log(urls);
-      assert.equal(urls[0].indexOf('http://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-hangzhou.aliyuncs.com' + key), 0);
+      // console.log(urls);
+      assert.equal(urls[0].indexOf('https://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-beijing.aliyuncs.com' + key), 0);
     });
   });
 });

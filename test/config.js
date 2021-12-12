@@ -3,8 +3,9 @@
 const env = process.env;
 
 module.exports = {
-  cdnBaseUrl: 'http://' + env.OSS_CNPM_BUCKET + '.oss-cn-hangzhou.aliyuncs.com',
+  // cdnBaseUrl: 'https://' + env.OSS_CNPM_BUCKET + '.oss-cn-beijing.aliyuncs.com',
   bucket: env.OSS_CNPM_BUCKET,
+  endpoint: 'https://oss-cn-beijing.aliyuncs.com',
   accessKeyId: env.OSS_CNPM_ID,
   accessKeySecret: env.OSS_CNPM_SECRET,
   defaultHeaders: {
