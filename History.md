@@ -1,4 +1,10 @@
 
+3.0.2 / 2021-12-13
+==================
+
+**others**
+  * [[`79a0a6a`](http://github.com/cnpm/oss-cnpm/commit/79a0a6a1bfc080017dd000f72f3b1db8a38b3a6f)] - 🐛 FIX: Autofix internal oss endpoint (#27) (fengmk2 <<fengmk2@gmail.com>>)
+
 3.0.1 / 2021-12-12
 ==================
 
