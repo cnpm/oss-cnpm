@@ -9,6 +9,11 @@ function trimKey(key) {
   return key;
 }
 
+function autoFixInternalOSSUrl(url) {
+  // get from endpoint, https://some-bucket.region-name-internal.aliyuncs.com/foo/url => https://some-bucket.region-name.aliyuncs.com/foo/url
+  return url.replace('-internal.aliyuncs.com/', '.aliyuncs.com/');
+}
+
 class OssWrapper {
   constructor(options) {
     // If you want to use oss public mode, please set `options.mode = 'public'`
@@ -103,9 +108,9 @@ class OssWrapper {
     if (this._cluster && options && options.bucket) {
       // select a bucket client
       const client = this._selectClientByBucket(options.bucket);
-      return client.signatureUrl(name, options);
+      return autoFixInternalOSSUrl(client.signatureUrl(name, options));
     }
-    return this.client.signatureUrl(name, options);
+    return autoFixInternalOSSUrl(this.client.signatureUrl(name, options));
   }
 
   async urls(key, options) {
@@ -120,7 +125,7 @@ class OssWrapper {
       urls = this._getAllAvailableUrls(name, options);
     }
     if (urls.length === 0) {
-      urls.push(this.client.signatureUrl(name, options));
+      urls.push(autoFixInternalOSSUrl(this.client.signatureUrl(name, options)));
     }
     if (cdnUrl) {
       urls.unshift(cdnUrl);
@@ -154,9 +159,9 @@ class OssWrapper {
       if (!this.client.availables[i]) continue;
 
       if (bucket && client.options.bucket === bucket) {
-        urls.unshift(client.signatureUrl(name, options));
+        urls.unshift(autoFixInternalOSSUrl(client.signatureUrl(name, options)));
       } else {
-        urls.push(client.signatureUrl(name, options));
+        urls.push(autoFixInternalOSSUrl(client.signatureUrl(name, options)));
       }
     }
     return urls;
