@@ -42,7 +42,7 @@
   "ci": {
     "type": "github",
     "os": {
-      "github": "linux, macos"
+      "github": "linux"
     },
     "version": "16"
   },
