@@ -1,4 +1,13 @@
 
+4.0.0 / 2022-10-23
+==================
+
+**features**
+  * [[`7796069`](http://github.com/cnpm/oss-cnpm/commit/7796069d96f13017c33b4b2dd46d04ebc32c98fa)] - 📦 NEW: [BREAKING] Use oss-client instead of ali-oss (#28) (fengmk2 <<fengmk2@gmail.com>>)
+
+**others**
+  * [[`d90e4d8`](http://github.com/cnpm/oss-cnpm/commit/d90e4d8a5351fc2d6492ce547aee7d6456f768c7)] - Create codeql.yml (fengmk2 <<fengmk2@gmail.com>>)
+
 3.0.2 / 2021-12-13
 ==================
 
