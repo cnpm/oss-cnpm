@@ -1,6 +1,4 @@
-'use strict';
-
-const Client = require('ali-oss');
+const Client = require('oss-client');
 
 function trimKey(key) {
   key = key ? key.replace(/^\//, '') : '';
@@ -33,7 +31,7 @@ class OssWrapper {
 
   async upload(filePath, options) {
     const key = trimKey(options.key);
-    // https://github.com/ali-sdk/ali-oss#putname-file-options
+    // https://github.com/node-modules/oss-client#putname-file-options
     const result = await this.client.put(key, filePath, {
       headers: this._defaultHeaders,
     });

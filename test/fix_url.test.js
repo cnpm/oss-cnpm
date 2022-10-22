@@ -1,5 +1,3 @@
-'use strict';
-
 const assert = require('assert');
 const Client = require('..');
 const config = require('./config');
