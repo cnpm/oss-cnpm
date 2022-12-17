@@ -31,17 +31,13 @@
     "oss-client": "^1.0.1"
   },
   "devDependencies": {
-    "egg-bin": "^4.16.4",
+    "egg-bin": "^5.6.1",
     "eslint": "^8.26.0",
     "eslint-config-egg": "^12.1.0",
     "urllib": "^3.3.1"
   },
   "engines": {
     "node": ">= 16.0.0"
-  },
-  "ci": {
-    "os": "linux",
-    "version": "16"
   },
   "license": "MIT"
 }
