@@ -12,7 +12,7 @@
 [download-image]: https://img.shields.io/npm/dm/oss-cnpm.svg?style=flat-square
 [download-url]: https://npmjs.org/package/oss-cnpm
 
-oss wraper for [cnpmjs.org NFS](https://github.com/cnpm/cnpmjs.org/wiki/NFS-Guide)
+oss wrapper for [cnpmjs.org NFS](https://github.com/cnpm/cnpmjs.org/wiki/NFS-Guide)
 
 ## Usage
 
