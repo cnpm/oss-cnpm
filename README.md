@@ -1,5 +1,4 @@
-oss-cnpm
-========
+# oss-cnpm
 
 [![NPM version][npm-image]][npm-url]
 [![Node.js CI](https://github.com/cnpm/oss-cnpm/actions/workflows/nodejs.yml/badge.svg)](https://github.com/cnpm/oss-cnpm/actions/workflows/nodejs.yml)
@@ -38,6 +37,14 @@ https://github.com/cnpm/oss-cnpm/wiki
 
 [MIT](LICENSE)
 
+<!-- GITCONTRIBUTOR_START -->
+
 ## Contributors
 
-[![](https://ergatejs.implements.io/badges/contributors/cnpm/oss-cnpm.svg?width=1250&size=96&padding=6)](https://github.com/cnpm/oss-cnpm/graphs/contributors)
+|[<img src="https://avatars.githubusercontent.com/u/156269?v=4" width="100px;"/><br/><sub><b>fengmk2</b></sub>](https://github.com/fengmk2)<br/>|[<img src="https://avatars.githubusercontent.com/u/985607?v=4" width="100px;"/><br/><sub><b>dead-horse</b></sub>](https://github.com/dead-horse)<br/>|[<img src="https://avatars.githubusercontent.com/u/6897780?v=4" width="100px;"/><br/><sub><b>killagu</b></sub>](https://github.com/killagu)<br/>|[<img src="https://avatars.githubusercontent.com/u/32174276?v=4" width="100px;"/><br/><sub><b>semantic-release-bot</b></sub>](https://github.com/semantic-release-bot)<br/>|
+| :---: | :---: | :---: | :---: |
+
+
+This project follows the git-contributor [spec](https://github.com/xudafeng/git-contributor), auto updated at `Fri Oct 06 2023 00:15:31 GMT+0800`.
+
+<!-- GITCONTRIBUTOR_END -->
