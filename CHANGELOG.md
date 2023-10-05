@@ -1,5 +1,18 @@
 # Changelog
 
+## [5.0.0](https://github.com/cnpm/oss-cnpm/compare/v4.0.1...v5.0.0) (2023-10-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* Drop Node.js < 16 support
+
+Upgrade oss-client to v2
+
+### Features
+
+* drop cluster-mode support ([#29](https://github.com/cnpm/oss-cnpm/issues/29)) ([f2e22de](https://github.com/cnpm/oss-cnpm/commit/f2e22dee2a3f3e6c0a7d2a6734018a9cd7136292))
+
 ## [4.0.1](https://github.com/cnpm/oss-cnpm/compare/v4.0.0...v4.0.1) (2022-12-17)
 
 
