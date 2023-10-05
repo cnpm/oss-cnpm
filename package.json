@@ -1,6 +1,9 @@
 {
   "name": "oss-cnpm",
   "version": "4.0.1",
+  "publishConfig": {
+    "tag": "latest-4"
+  },
   "description": "a oss api wraper for cnpmjs.org nfs",
   "keywords": [
     "oss",

@@ -6,14 +6,12 @@ name: Node.js CI
 on:
   push:
     branches:
-      - main
+      - 4.x
       - master
   pull_request:
     branches:
-      - main
+      - 4.x
       - master
-  schedule:
-    - cron: '0 2 * * *'
 
 jobs:
   build:
