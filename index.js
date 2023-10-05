@@ -1,4 +1,4 @@
-const Client = require('oss-client');
+const { OSSObject } = require('oss-client');
 
 function trimKey(key) {
   key = key ? key.replace(/^\//, '') : '';
@@ -17,14 +17,7 @@ class OssWrapper {
     // If you want to use oss public mode, please set `options.mode = 'public'`
     this._mode = options.mode === 'public' ? 'public' : 'private';
 
-    if (options.cluster) {
-      options.schedule = options.schedule || 'masterSlave';
-      this.client = new Client.ClusterClient(options);
-      this._cluster = true;
-    } else {
-      this.client = new Client(options);
-    }
-
+    this.client = new OSSObject(options);
     this._cdnBaseUrl = options.cdnBaseUrl;
     this._defaultHeaders = options.defaultHeaders;
   }
@@ -50,7 +43,6 @@ class OssWrapper {
 
   // options.position, default is '0'
   async appendBytes(bytes, options) {
-    if (this._cluster) throw new TypeError('cluster not support appendBytes');
     // nextAppendPosition on result
     const key = trimKey(options.key);
     if (typeof bytes === 'string') {
@@ -103,11 +95,6 @@ class OssWrapper {
     if (this._cdnBaseUrl) {
       return this.client.getObjectUrl(name, this._cdnBaseUrl);
     }
-    if (this._cluster && options && options.bucket) {
-      // select a bucket client
-      const client = this._selectClientByBucket(options.bucket);
-      return autoFixInternalOSSUrl(client.signatureUrl(name, options));
-    }
     return autoFixInternalOSSUrl(this.client.signatureUrl(name, options));
   }
 
@@ -118,10 +105,7 @@ class OssWrapper {
       cdnUrl = this.client.getObjectUrl(name, this._cdnBaseUrl);
     }
 
-    let urls = [];
-    if (this._cluster && options && options.bucket) {
-      urls = this._getAllAvailableUrls(name, options);
-    }
+    const urls = [];
     if (urls.length === 0) {
       urls.push(autoFixInternalOSSUrl(this.client.signatureUrl(name, options)));
     }
@@ -133,36 +117,6 @@ class OssWrapper {
 
   async remove(key) {
     await this.client.delete(trimKey(key));
-  }
-
-  _selectClientByBucket(bucket) {
-    const clients = this.client.clients;
-    const len = clients.length;
-    for (let i = 0; i < len; i++) {
-      const client = clients[i];
-      if (this.client.availables[i] && client.options.bucket === bucket) {
-        return client;
-      }
-    }
-    return this.client.chooseAvailable();
-  }
-
-  _getAllAvailableUrls(name, options) {
-    const bucket = options.bucket;
-    const clients = this.client.clients;
-    const len = clients.length;
-    const urls = [];
-    for (let i = 0; i < len; i++) {
-      const client = clients[i];
-      if (!this.client.availables[i]) continue;
-
-      if (bucket && client.options.bucket === bucket) {
-        urls.unshift(autoFixInternalOSSUrl(client.signatureUrl(name, options)));
-      } else {
-        urls.push(autoFixInternalOSSUrl(client.signatureUrl(name, options)));
-      }
-    }
-    return urls;
   }
 }
 

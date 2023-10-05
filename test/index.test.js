@@ -4,13 +4,6 @@ const assert = require('assert');
 const urllib = require('urllib');
 const Client = require('..');
 const config = require('./config');
-const masterSlaveClusterConfig = require('./cluster_config');
-
-const roundRobinClusterConfig = {};
-for (const key in masterSlaveClusterConfig) {
-  roundRobinClusterConfig[key] = masterSlaveClusterConfig[key];
-}
-roundRobinClusterConfig.schedule = 'roundRobin';
 
 describe('test/index.test.js', () => {
   [
@@ -18,16 +11,6 @@ describe('test/index.test.js', () => {
       name: 'one region oss client',
       nfs: new Client(config),
       prefix: '/oss-cnpm-example',
-    },
-    {
-      name: 'cluster:masterSlave oss client',
-      nfs: new Client(masterSlaveClusterConfig),
-      prefix: '/oss-cnpm-masterSlave-example',
-    },
-    {
-      name: 'cluster:roundRobin oss client',
-      nfs: new Client(roundRobinClusterConfig),
-      prefix: '/oss-cnpm-roundRobin-example',
     },
   ].forEach(item => {
     describe(item.name, () => {
@@ -148,7 +131,8 @@ describe('test/index.test.js', () => {
           await nfs.download(key, tmpfile);
           throw new Error('should not run this');
         } catch (err) {
-          assert.equal(err.name, 'NoSuchKeyError');
+          assert.equal(err.name, 'OSSClientError');
+          assert.equal(err.code, 'NoSuchKey');
         }
       });
 
@@ -167,78 +151,6 @@ describe('test/index.test.js', () => {
         assert(files);
         assert(files.length > 0);
       });
-    });
-  });
-
-  describe('cluster client', () => {
-    it('should create signature url with bucket2', async () => {
-      const nfs = new Client({
-        cluster: masterSlaveClusterConfig.cluster,
-      });
-      const key = '/foo/bar/ok.tgz';
-      let url = await nfs.url(key, { bucket: process.env.OSS_CNPM_BUCKET2 });
-      assert.equal(typeof url, 'string');
-      // console.log(url);
-      assert.equal(url.indexOf('https://' + process.env.OSS_CNPM_BUCKET2 + '.oss-cn-beijing.aliyuncs.com' + key), 0);
-
-      url = await nfs.url(key, { bucket: process.env.OSS_CNPM_BUCKET });
-      assert.equal(typeof url, 'string');
-      // console.log(url);
-      assert.equal(url.indexOf('https://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-beijing.aliyuncs.com' + key), 0);
-
-      // default bucket
-      url = await nfs.url(key, { bucket: process.env.OSS_CNPM_BUCKET2 + '-not-exists' });
-      assert.equal(typeof url, 'string');
-      // console.log(url);
-      assert.equal(url.indexOf('https://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-beijing.aliyuncs.com' + key), 0);
-
-      // not availables
-      nfs.client.availables[1] = false;
-      url = await nfs.url(key, { bucket: process.env.OSS_CNPM_BUCKET2 });
-      nfs.client.availables[1] = true;
-      assert.equal(typeof url, 'string');
-      // console.log(url);
-      assert.equal(url.indexOf('https://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-beijing.aliyuncs.com' + key), 0);
-    });
-
-    it('should multi urls', async () => {
-      const nfs = new Client({
-        cluster: masterSlaveClusterConfig.cluster,
-      });
-      const key = '/foo/bar/ok.tgz';
-      let urls = await nfs.urls(key, { bucket: process.env.OSS_CNPM_BUCKET2 });
-      assert(Array.isArray(urls));
-      assert(urls.length === 2);
-      // console.log(urls);
-      assert.equal(urls[0].indexOf('https://' + process.env.OSS_CNPM_BUCKET2 + '.oss-cn-beijing.aliyuncs.com' + key), 0);
-
-      urls = await nfs.urls(key, { bucket: process.env.OSS_CNPM_BUCKET });
-      assert(Array.isArray(urls));
-      assert(urls.length === 2);
-      // console.log(urls);
-      assert.equal(urls[0].indexOf('https://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-beijing.aliyuncs.com' + key), 0);
-
-      // default bucket
-      urls = await nfs.urls(key, { bucket: process.env.OSS_CNPM_BUCKET2 + '-not-exists' });
-      assert(Array.isArray(urls));
-      assert(urls.length === 2);
-      // console.log(urls);
-      assert.equal(urls[0].indexOf('https://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-beijing.aliyuncs.com' + key), 0);
-
-      // not availables
-      nfs.client.availables[1] = false;
-      urls = await nfs.urls(key, { bucket: process.env.OSS_CNPM_BUCKET2 });
-      nfs.client.availables[1] = true;
-      assert(Array.isArray(urls));
-      assert(urls.length === 1);
-      // console.log(urls);
-      assert.equal(urls[0].indexOf('https://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-beijing.aliyuncs.com' + key), 0);
-
-      urls = await nfs.urls(key);
-      assert(Array.isArray(urls));
-      assert(urls.length === 1);
-      // console.log(urls);
-      assert.equal(urls[0].indexOf('https://' + process.env.OSS_CNPM_BUCKET + '.oss-cn-beijing.aliyuncs.com' + key), 0);
     });
   });
 });

@@ -1,7 +1,7 @@
 {
   "name": "oss-cnpm",
   "version": "4.0.1",
-  "description": "a oss api wraper for cnpmjs.org nfs",
+  "description": "oss api wrapper for cnpmjs.org nfs",
   "keywords": [
     "oss",
     "cnpm"
@@ -22,18 +22,18 @@
     "lint": "eslint . --ext .js",
     "lint:fix": "eslint . --ext .js --fix",
     "test": "npm run lint:fix && npm run test-local",
-    "test-local": "egg-bin test --full-trace",
-    "t": "egg-bin test --changed --full-trace",
-    "cov": "egg-bin cov --full-trace",
-    "ci": "npm run lint && npm run cov"
+    "test-local": "egg-bin test",
+    "ci": "npm run lint && egg-bin cov",
+    "contributor": "git-contributor"
   },
   "dependencies": {
-    "oss-client": "^1.0.1"
+    "oss-client": "^2.0.0"
   },
   "devDependencies": {
-    "egg-bin": "^5.6.1",
+    "egg-bin": "^6.5.2",
     "eslint": "^8.26.0",
-    "eslint-config-egg": "^12.1.0",
+    "eslint-config-egg": "^13.0.0",
+    "git-contributor": "^2.1.5",
     "urllib": "^3.3.1"
   },
   "engines": {
