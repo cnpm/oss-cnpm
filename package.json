@@ -27,7 +27,7 @@
     "contributor": "git-contributor"
   },
   "dependencies": {
-    "oss-client": "^2.0.0"
+    "oss-client": "^2.0.1"
   },
   "devDependencies": {
     "egg-bin": "^6.5.2",
