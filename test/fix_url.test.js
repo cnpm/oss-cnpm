@@ -11,4 +11,13 @@ describe('test/fix_url.test.js', () => {
     const url = await nfs.url('foo/bar.txt');
     assert(url.startsWith('https://oss-cnpm-unittest1.oss-cn-beijing.aliyuncs.com/foo/bar.txt?OSSAccessKeyId='));
   });
+
+  it('should support cdnBaseUrl', async () => {
+    const nfs = new Client({
+      ...config,
+      cdnBaseUrl: 'https://foo.com',
+    });
+    const url = await nfs.url('foo/bar.txt');
+    assert.equal(url, 'https://foo.com/foo/bar.txt');
+  });
 });
