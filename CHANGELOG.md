@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.0.1](https://github.com/cnpm/oss-cnpm/compare/v5.0.0...v5.0.1) (2023-10-07)
+
+
+### Bug Fixes
+
+* use oss-client@2.0.1 ([#30](https://github.com/cnpm/oss-cnpm/issues/30)) ([7c293e9](https://github.com/cnpm/oss-cnpm/commit/7c293e9b1f6bd8733d1f632756811a57d1b3896d))
+
 ## [5.0.0](https://github.com/cnpm/oss-cnpm/compare/v4.0.1...v5.0.0) (2023-10-05)
 
 
